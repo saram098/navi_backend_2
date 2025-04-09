@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic API Documentation</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            line-height: 1.6;
+            color: #f8f9fa;
+            background-color: #212529;
+        }
+        pre {
+            background-color: #343a40;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        code {
+            color: #20c997;
+        }
+        .endpoint {
+            margin-bottom: 30px;
+            border-left: 4px solid #0d6efd;
+            padding-left: 15px;
+            background-color: #2c3034;
+            padding: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 60px;
+            text-align: center;
+        }
+        .get {
+            background-color: #198754;
+            color: white;
+        }
+        .post {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .put {
+            background-color: #ffc107;
+            color: black;
+        }
+        .delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        .path {
+            font-family: monospace;
+            font-size: 1.1em;
+            background-color: #343a40;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .table {
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #495057;
+        }
+        h4 {
+            margin-top: 20px;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #495057;
+            text-align: center;
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+    <div class="container">
+        <h1 class="mb-4 text-center">Clinic Appointment and Chatbot API Documentation</h1>
+        
+        <div class="alert alert-info">
+            <p>This documentation describes the backend API endpoints for the clinic appointment and chatbot platform. For interactive documentation with request/response examples, use the <a href="/docs" class="alert-link">Swagger UI</a> when running the FastAPI application.</p>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <nav class="sticky-top pt-3">
+                    <ul class="nav flex-column nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#auth">Authentication</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#physicians">Physicians</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#appointments">Appointments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#payments">Payments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#insurance">Insurance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#chatbot">WhatsApp Chatbot</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="col-md-9">
+                <!-- Authentication Section -->
+                <section id="auth" class="section">
+                    <h2>Authentication</h2>
+                    <p>The API uses JWT-based authentication. Users need to register and verify their email before they can log in and access protected endpoints.</p>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/auth/register</span>
+                        <p>Register a new user account.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "email": "user@example.com",
+  "password": "secure_password",
+  "name": "John Doe",
+  "phone_number": "+971501234567"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/auth/verify</span>
+                        <p>Verify email with OTP sent during registration.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "email": "user@example.com",
+  "otp": "123456"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/auth/login</span>
+                        <p>Authenticate and get JWT token.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "email": "user@example.com",
+  "password": "secure_password"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/auth/forgot-password</span>
+                        <p>Start password reset process.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "email": "user@example.com"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/auth/reset-password</span>
+                        <p>Reset password using token received via email.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "email": "user@example.com",
+  "token": "reset_token",
+  "new_password": "new_secure_password"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/auth/me</span>
+                        <p>Get current user profile.</p>
+                        <h4>Authorization:</h4>
+                        <p>Requires JWT token in Authorization header.</p>
+                    </div>
+                </section>
+                
+                <!-- Physicians Section -->
+                <section id="physicians" class="section">
+                    <h2>Physician Management</h2>
+                    <p>Endpoints for retrieving physician information and availability.</p>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/physicians</span>
+                        <p>Get list of physicians with optional filtering.</p>
+                        <h4>Query Parameters:</h4>
+                        <table class="table table-sm table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>specialty</td>
+                                    <td>string</td>
+                                    <td>Filter by medical specialty</td>
+                                </tr>
+                                <tr>
+                                    <td>min_price</td>
+                                    <td>number</td>
+                                    <td>Minimum consultation price</td>
+                                </tr>
+                                <tr>
+                                    <td>max_price</td>
+                                    <td>number</td>
+                                    <td>Maximum consultation price</td>
+                                </tr>
+                                <tr>
+                                    <td>available_date</td>
+                                    <td>string</td>
+                                    <td>Date for availability check (YYYY-MM-DD)</td>
+                                </tr>
+                                <tr>
+                                    <td>language</td>
+                                    <td>string</td>
+                                    <td>Filter by languages spoken</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/physicians/{physician_id}</span>
+                        <p>Get detailed information about a specific physician.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/physicians/{physician_id}/availability</span>
+                        <p>Get a physician's availability within a date range.</p>
+                        <h4>Query Parameters:</h4>
+                        <table class="table table-sm table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>start_date</td>
+                                    <td>string</td>
+                                    <td>Start date (YYYY-MM-DD)</td>
+                                </tr>
+                                <tr>
+                                    <td>end_date</td>
+                                    <td>string</td>
+                                    <td>End date (YYYY-MM-DD), optional</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/physicians/specialties</span>
+                        <p>Get a list of all available physician specialties.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/physicians/languages</span>
+                        <p>Get a list of all languages spoken by physicians.</p>
+                    </div>
+                </section>
+                
+                <!-- Appointments Section -->
+                <section id="appointments" class="section">
+                    <h2>Appointments</h2>
+                    <p>Endpoints for booking and managing appointments.</p>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/appointments</span>
+                        <p>Book a new appointment with a physician.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "physician_id": "60d21b4967d0d8992e610c87",
+  "date": "2023-05-15",
+  "start_time": "09:00",
+  "end_time": "09:30",
+  "notes": "First consultation for heart issues"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/appointments</span>
+                        <p>Get a list of the current user's appointments.</p>
+                        <h4>Query Parameters:</h4>
+                        <table class="table table-sm table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>status</td>
+                                    <td>string</td>
+                                    <td>Filter by appointment status (pending, confirmed, completed, cancelled, no_show)</td>
+                                </tr>
+                                <tr>
+                                    <td>from_date</td>
+                                    <td>string</td>
+                                    <td>Start date for filtering (YYYY-MM-DD)</td>
+                                </tr>
+                                <tr>
+                                    <td>to_date</td>
+                                    <td>string</td>
+                                    <td>End date for filtering (YYYY-MM-DD)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/appointments/{appointment_id}</span>
+                        <p>Get details of a specific appointment.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method put">PUT</span>
+                        <span class="path">/appointments/{appointment_id}</span>
+                        <p>Update an existing appointment.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "status": "confirmed",
+  "notes": "Updated notes for the appointment"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method delete">DELETE</span>
+                        <span class="path">/appointments/{appointment_id}</span>
+                        <p>Cancel an appointment.</p>
+                    </div>
+                </section>
+                
+                <!-- Payments Section -->
+                <section id="payments" class="section">
+                    <h2>Payments</h2>
+                    <p>Endpoints for processing payments using Stripe.</p>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/payments/create-intent</span>
+                        <p>Create a Stripe payment intent for an appointment.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "appointment_id": "60d21b4967d0d8992e610c85"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/payments/confirm</span>
+                        <p>Confirm payment was processed successfully.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "payment_intent_id": "pi_1J2NxQEHVqKX9Mq8Y8jLQJnZ"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/payments/status/{appointment_id}</span>
+                        <p>Get the payment status of an appointment.</p>
+                    </div>
+                </section>
+                
+                <!-- Insurance Section -->
+                <section id="insurance" class="section">
+                    <h2>Insurance</h2>
+                    <p>Endpoints for verifying insurance coverage.</p>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/insurance/verify</span>
+                        <p>Verify insurance coverage using Emirates ID.</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "emirates_id": "784-1234-5678901-2"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/insurance/status</span>
+                        <p>Get the current user's insurance status from their profile.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/insurance/refresh</span>
+                        <p>Refresh the insurance status by re-verifying with the stored Emirates ID.</p>
+                    </div>
+                </section>
+                
+                <!-- Chatbot Section -->
+                <section id="chatbot" class="section">
+                    <h2>WhatsApp Chatbot</h2>
+                    <p>Endpoints for the WhatsApp chatbot integration using Twilio.</p>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/chatbot/twilio-webhook</span>
+                        <p>Webhook endpoint for Twilio WhatsApp messages.</p>
+                        <h4>Note:</h4>
+                        <p>This endpoint receives incoming WhatsApp messages from Twilio, processes them using the chatbot agent, and sends back a response.</p>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/chatbot/send-whatsapp</span>
+                        <p>Send a WhatsApp message to a user (for staff use).</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "phone_number": "+971501234567",
+  "message": "Your appointment has been confirmed"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/chatbot/send-sms</span>
+                        <p>Send an SMS message to a user (for staff use when WhatsApp is not available).</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "phone_number": "+971501234567",
+  "message": "Your appointment has been confirmed"
+}</code></pre>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <span class="path">/chatbot/history/{phone_number}</span>
+                        <p>Get conversation history with a specific user.</p>
+                        <h4>Query Parameters:</h4>
+                        <table class="table table-sm table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>limit</td>
+                                    <td>integer</td>
+                                    <td>Maximum number of messages to return (default 50)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <span class="method post">POST</span>
+                        <span class="path">/chatbot/test</span>
+                        <p>Test the chatbot agent with a message (without sending real WhatsApp messages).</p>
+                        <h4>Request Body:</h4>
+                        <pre><code>{
+  "message": "I want to book an appointment with a cardiologist"
+}</code></pre>
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Clinic Appointment System | <a href="/">Back to Home</a></p>
+        </div>
+    </div>
+</body>
+</html>

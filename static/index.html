@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Appointment and Chatbot API</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            line-height: 1.6;
+            color: #f8f9fa;
+            background-color: #212529;
+        }
+        pre {
+            background-color: #343a40;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .feature-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #2c3034;
+        }
+        h1, h2, h3 {
+            margin-top: 30px;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #495057;
+            text-align: center;
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+    <div class="container">
+        <h1 class="mb-4 text-center">Clinic Appointment and Chatbot API</h1>
+        
+        <div class="alert alert-info" role="alert">
+            <p><strong>Note:</strong> This is a development server. Use the following command to run the FastAPI application:</p>
+            <pre class="bg-dark text-light">python run_fastapi.py</pre>
+        </div>
+        
+        <div class="text-center mb-4">
+            <a href="/static/api-docs.html" class="btn btn-primary">API Documentation</a>
+            <a href="/docs" class="btn btn-secondary ms-2">Interactive Swagger UI</a>
+        </div>
+        
+        <h2>About the API</h2>
+        <p>
+            This backend system provides a comprehensive solution for clinic appointment management
+            and patient interaction through WhatsApp chatbot integration.
+        </p>
+        
+        <h2>Key Features</h2>
+        
+        <div class="feature-item">
+            <h3><span class="badge bg-primary">Authentication</span> User Management</h3>
+            <p>Secure user registration, login, email verification, and password management.</p>
+        </div>
+        
+        <div class="feature-item">
+            <h3><span class="badge bg-success">Appointments</span> Scheduling System</h3>
+            <p>Book, view, update, and cancel appointments with physicians.</p>
+        </div>
+        
+        <div class="feature-item">
+            <h3><span class="badge bg-warning">Chatbot</span> WhatsApp Integration</h3>
+            <p>AI-powered chatbot for appointment booking, checking availability, and answering questions via WhatsApp.</p>
+        </div>
+        
+        <div class="feature-item">
+            <h3><span class="badge bg-info">Payments</span> Secure Transaction Processing</h3>
+            <p>Integrated payment processing using Stripe for appointment fees.</p>
+        </div>
+        
+        <div class="feature-item">
+            <h3><span class="badge bg-secondary">Insurance</span> Verification System</h3>
+            <p>Check insurance coverage and eligibility for medical services.</p>
+        </div>
+        
+        <h2>Technology Stack</h2>
+        <ul>
+            <li><strong>Backend Framework:</strong> FastAPI</li>
+            <li><strong>Database:</strong> MongoDB</li>
+            <li><strong>External Services:</strong> Twilio (WhatsApp), OpenAI (Chatbot Intelligence), Stripe (Payments)</li>
+            <li><strong>Authentication:</strong> JWT (JSON Web Tokens)</li>
+        </ul>
+        
+        <h2>Running the API</h2>
+        <p>To run the FastAPI application with full functionality, use either:</p>
+        <pre class="bg-dark text-light">
+python run_fastapi.py
+# OR
+python -m uvicorn main:create_fastapi_app --host 0.0.0.0 --port 5000</pre>
+
+        <div class="alert alert-secondary" role="alert">
+            <p>The FastAPI interactive documentation will be available at <a href="/docs" class="alert-link">/docs</a> when running the FastAPI application.</p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Clinic Appointment System</p>
+        </div>
+    </div>
+</body>
+</html>
