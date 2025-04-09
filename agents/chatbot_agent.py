@@ -37,32 +37,29 @@ class ChatbotAgent:
             # Step 1: Get or create user profile based on phone number
             user = await self._get_or_create_user(phone_number)
             
-            # Step 2: Classify the intent using OpenAI
-            intent_data = await openai_service.get_intent_classification(message)
-            intent = intent_data.get("intent", "other")
-            entities = intent_data.get("entities", {})
+            # Save the message to conversation history
+            db = get_database()
+            await db.chatbot_conversations.insert_one({
+                "user_id": user["_id"],
+                "phone_number": phone_number,
+                "message": message,
+                "direction": "incoming",
+                "timestamp": datetime.utcnow()
+            })
             
-            # Step 3: Route to the appropriate handler based on intent
-            if intent == "book_appointment":
-                return await self._handle_book_appointment(user, message, entities)
-            elif intent == "check_availability":
-                return await self._handle_check_availability(user, message, entities)
-            elif intent == "cancel_appointment":
-                return await self._handle_cancel_appointment(user, message, entities)
-            elif intent == "reschedule_appointment":
-                return await self._handle_reschedule_appointment(user, message, entities)
-            elif intent == "physician_info":
-                return await self._handle_physician_info(user, message, entities)
-            elif intent == "insurance_check":
-                return await self._handle_insurance_check(user, message, entities)
-            elif intent == "clinic_info":
-                return await self._handle_clinic_info(user, message, entities)
-            elif intent == "pricing":
-                return await self._handle_pricing(user, message, entities)
-            elif intent == "greeting":
-                return await self._handle_greeting(user)
-            else:
-                return await self._handle_other(user, message)
+            # Use the new OpenAI agent framework to process the message
+            response = await openai_service.process_message_with_agent(message, user, db)
+            
+            # Save the response to conversation history
+            await db.chatbot_conversations.insert_one({
+                "user_id": user["_id"],
+                "phone_number": phone_number,
+                "message": response,
+                "direction": "outgoing",
+                "timestamp": datetime.utcnow()
+            })
+            
+            return response
                 
         except Exception as e:
             logger.error(f"Error processing message: {str(e)}")
