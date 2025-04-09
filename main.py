@@ -145,16 +145,15 @@ def create_fastapi_app():
     fastapi_app.include_router(insurance_router, prefix="/insurance", tags=["Insurance"])
     fastapi_app.include_router(chatbot_router, prefix="/chatbot", tags=["WhatsApp Chatbot"])
     
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import FileResponse
+
     # Mount static files directory
     fastapi_app.mount("/static", StaticFiles(directory="static"), name="static")
 
     @fastapi_app.get("/", tags=["Root"])
     async def root():
-        try:
-            return FileResponse("static/index.html", media_type="text/html")
-        except:
-            # Fall back to JSON response if file doesn't exist
-            return {"message": "Welcome to the Clinic Appointment and Chatbot API"}
+        return FileResponse("static/index.html")
 
     # Custom Swagger UI with dark theme
     @fastapi_app.get("/docs", include_in_schema=False)
