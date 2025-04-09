@@ -1,7 +1,8 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime
-from pymongo.bson import ObjectId
+from bson import ObjectId
+
 
 class PyObjectId(ObjectId):
     @classmethod

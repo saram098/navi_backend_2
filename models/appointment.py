@@ -2,7 +2,8 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
-from pymongo.bson import ObjectId
+from bson import ObjectId
+
 
 class PyObjectId(ObjectId):
     @classmethod
