@@ -10,19 +10,20 @@ logger = logging.getLogger(__name__)
 
 async def send_email(to_email: str, subject: str, body: str, is_html: bool = False):
     """
-    Send an email using the configured SMTP server.
+    Send an email using Gmail SMTP server.
     
-    In production, this would send an actual email.
-    For development, it's mocked to print the email content to console.
+    This function uses Gmail's SMTP server with the configured credentials
+    to send emails to users (OTPs, notifications, etc.)
     """
     # If email credentials are not configured, just log the email
     if not all([settings.EMAIL_USERNAME, settings.EMAIL_PASSWORD, settings.EMAIL_FROM]):
         logger.info(f"Email would be sent to: {to_email}")
         logger.info(f"Subject: {subject}")
         logger.info(f"Body: {body}")
+        logger.warning("Email credentials not configured. Email not sent.")
         return True
     
-    # In production, send actual email
+    # Send actual email using Gmail SMTP
     try:
         msg = MIMEMultipart()
         msg['From'] = settings.EMAIL_FROM
@@ -34,12 +35,20 @@ async def send_email(to_email: str, subject: str, body: str, is_html: bool = Fal
         else:
             msg.attach(MIMEText(body, 'plain'))
         
-        server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
-        server.starttls()
+        # Use Gmail's SMTP server with secure connection
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()  # Identify ourselves to the server
+        server.starttls()  # Secure the connection
+        server.ehlo()  # Re-identify ourselves over TLS connection
+        
+        # Login with app password
         server.login(settings.EMAIL_USERNAME, settings.EMAIL_PASSWORD)
+        
+        # Send the email
         text = msg.as_string()
         server.sendmail(settings.EMAIL_FROM, to_email, text)
         server.quit()
+        
         logger.info(f"Email sent successfully to {to_email}")
         return True
     except Exception as e:

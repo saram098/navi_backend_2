@@ -47,12 +47,29 @@ async def create_indexes():
     # Physicians collection indexes
     await db.physicians.create_index("specialty")
     await db.physicians.create_index("consultation_price")
+    await db.physicians.create_index("languages")
+    await db.physicians.create_index("name")
     
     # Appointments collection indexes
     await db.appointments.create_index("user_id")
     await db.appointments.create_index("physician_id")
     await db.appointments.create_index("date")
     await db.appointments.create_index([("user_id", 1), ("date", 1)])
+    
+    # Clinic information indexes
+    await db.clinic_info.create_index("name", unique=True)
+    
+    # Medical packages indexes
+    await db.medical_packages.create_index("name")
+    await db.medical_packages.create_index("price")
+    
+    # Treatments indexes
+    await db.treatments.create_index("name")
+    await db.treatments.create_index("specialty")
+    
+    # Chatbot conversations indexes
+    await db.chatbot_conversations.create_index("phone_number")
+    await db.chatbot_conversations.create_index("timestamp")
     
     logger.info("Database indexes created successfully")
 
