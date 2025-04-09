@@ -1,0 +1,98 @@
+I want to build a backend system for a clinic appointment and chatbot platform using FastAPI and MongoDB Atlas. It should be designed to work for both a WhatsApp chatbot (via Twilio) and a mobile app (in the future).
+
+What the backend should support:
+Authentication:
+
+User registration and login with email and password.
+
+OTP verification via email (simulate or mock for now).
+
+JWT-based authentication.
+
+Endpoints: /auth/register, /auth/login, /auth/verify, /auth/forgot-password, /auth/reset.
+
+Physician Management:
+
+Store and manage physician info (name, specialty, consultation price, and real-time schedule).
+
+Data will be manually inserted for now, but should support future updates dynamically.
+
+Endpoint to list physicians filtered by price, specialty, availability, etc.
+
+Appointments:
+
+Book appointments with physicians.
+
+Each appointment includes: patient info, physician_id, date, time, and booking status.
+
+Endpoint to get user’s own bookings.
+
+Payments:
+
+Stripe integration for payment.
+
+Endpoint to create Stripe payment intent and return client_secret.
+
+Insurance Check:
+
+Endpoint where user submits Emirates ID.
+
+System will simulate a check by putting that ID into an external website (mock this for now).
+
+WhatsApp Chatbot:
+
+Built using Twilio API.
+
+Users can interact via WhatsApp to get physician suggestions, check availability, book appointments, and submit Emirates ID for insurance check.
+
+Chatbot should use OpenAI API to understand and handle dynamic queries using an agent framework.
+
+OpenAI Integration:
+
+Use OpenAI to help the chatbot understand natural language questions and route them to the correct endpoints or MongoDB collections.
+
+Database:
+
+Use MongoDB Atlas with collections:
+
+users
+
+physicians
+
+appointments
+
+clinic_info
+
+medical_packages
+
+Future collections may be added, so structure must be scalable.
+
+Architecture:
+
+Should be modular and production-ready.
+
+Support both chatbot and app clients with the same API.
+
+Project folders: endpoints/, models/, db/, utils/, settings/, agents/, services/.
+
+Environment Variables:
+
+Use .env to load config: MONGO_URI, SECRET_KEY, STRIPE_SECRET_KEY, TWILIO_SID, TWILIO_AUTH_TOKEN, OPENAI_API_KEY.
+
+Tech Stack:
+
+FastAPI
+
+MongoDB (with Motor)
+
+Stripe
+
+Twilio
+
+OpenAI
+
+JWT
+
+Uvicorn
+
+Build the backend with this complete setup and ready for real-time chatbot use on WhatsApp and future mobile app integration.
