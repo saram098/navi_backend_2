@@ -4,7 +4,6 @@ from datetime import datetime
 from enum import Enum
 from bson import ObjectId
 
-
 class PyObjectId(ObjectId):
     @classmethod
     def __get_validators__(cls):

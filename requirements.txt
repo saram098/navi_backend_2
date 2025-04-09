@@ -28,3 +28,5 @@ twilio
 uvicorn
 pymongo
 pymongo[srv]
+openai-agents
+PyPDF2
