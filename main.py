@@ -90,7 +90,7 @@ app = simple_app
 # Instructions for using FastAPI with Uvicorn
 # If you want to run FastAPI instead with Uvicorn, run:
 # ```
-# python -m uvicorn main:create_fastapi_app --host 0.0.0.0 --port 5000
+# python run_fastapi.py
 # ```
 
 # This function will be called by uvicorn when needed
