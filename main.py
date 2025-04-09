@@ -114,6 +114,9 @@ def create_fastapi_app():
         title="Clinic Appointment and Chatbot API",
         description="Backend API for clinic appointment booking and WhatsApp chatbot integration",
         version="1.0.0",
+        docs_url="/docs",
+        redoc_url="/redoc",
+        openapi_url="/openapi.json"
     )
 
     # Configure CORS
